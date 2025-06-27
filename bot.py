@@ -42,7 +42,7 @@ async def on_message(message):
             user_message = message.content.replace(f'<@{client.user.id}>', '').strip() # Quita la mención
 
         if not user_message:
-            await message.channel.send("Hola, soy un bot de IA. Pregúntame algo después de mencionarme o usar `!ia`.")
+            await message.channel.send("Hola, soy un genocida en potencia. Pregúntame algo después de mencionarme o usar `!ia`.")
             return
 
         # Indicar que el bot está escribiendo
@@ -54,7 +54,30 @@ async def on_message(message):
                 await message.channel.send(response.text)
             except Exception as e:
                 print(f"Error al comunicarse con Gemini: {e}")
-                await message.channel.send("Lo siento, tuve un problema al procesar tu solicitud. Inténtalo de nuevo más tarde.")
+                await message.channel.send("Lo siento, hoy me dio ganas de valer verga. Inténtalo de nuevo más tarde.")
 
 # Iniciar el bot con tu token
 client.run(DISCORD_BOT_TOKEN)
+# === Código para mantener el Web Service de Render despierto ===
+import http.server
+import socketserver
+import threading
+
+PORT = int(os.getenv("PORT", 8080)) # Render asigna un puerto, o usa 8080 por defecto
+
+class MyHandler(http.server.BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write(b"Bot esta vivo!")
+
+def run_server():
+    with socketserver.TCPServer(("", PORT), MyHandler) as httpd:
+        print(f"Servidor web dummy escuchando en puerto {PORT}")
+        httpd.serve_forever()
+
+# Iniciar el servidor web dummy en un hilo separado
+server_thread = threading.Thread(target=run_server)
+server_thread.start()
+# ===============================================================
